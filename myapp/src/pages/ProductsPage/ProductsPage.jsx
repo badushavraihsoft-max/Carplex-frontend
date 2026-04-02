@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { FaBolt, FaShieldAlt, FaChair, FaMagic, FaTint, FaPhoneAlt } from 'react-icons/fa';
+import { FaBolt, FaShieldAlt,  FaMagic, FaTint, FaPhoneAlt } from 'react-icons/fa';
 import './ProductsPage.css';
+import { GiCarSeat } from "react-icons/gi";
 
 
 const useReveal = () => {
@@ -62,7 +63,7 @@ const products = [
         img: '/assets/seat-covers.png',
         title: ['Premium ', 'Seat Covers'],
         desc: 'Our custom-fit seat covers are crafted from top-grade leather with diamond stitching patterns, available in a range of colors and styles. Each cover is precision-cut for your exact car model, offering a factory-finish look.',
-        icon: <FaChair />,
+        icon: <GiCarSeat />,
         heading: 'Why It Matters',
 
         points: [

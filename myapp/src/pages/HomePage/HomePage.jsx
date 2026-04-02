@@ -1,14 +1,14 @@
-import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-    FaMobileAlt, FaCamera, FaChair, FaMagic,
+    FaMobileAlt, FaCamera, FaMagic,
     FaTint, FaGem, FaAward, FaShieldAlt,
     FaBolt, FaStar, FaMapMarkerAlt, FaPhoneAlt,
-    FaClock, FaEnvelope
+    FaClock, FaEnvelope, FaVolumeUp, FaHeadphones,
+    FaLock, FaBatteryFull
 } from 'react-icons/fa';
 import HeroSlider from '../../components/HeroSlider/HeroSlider';
 import './HomePage.css';
-
+import { GiCarSeat } from "react-icons/gi";
 
 const useReveal = () => {
     const ref = useRef(null);
@@ -39,7 +39,6 @@ const useParallax = (speed = 0.5) => {
             const scrolled = window.scrollY;
             const offset = ref.current.offsetTop;
             const visible = scrolled + window.innerHeight > offset && scrolled < offset + ref.current.offsetHeight;
-
             if (visible) {
                 const yPos = (scrolled - offset) * speed;
                 const bg = ref.current.querySelector('.parallax-bg-layer');
@@ -52,6 +51,40 @@ const useParallax = (speed = 0.5) => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [speed]);
     return ref;
+};
+
+const CountUp = ({ target, suffix }) => {
+    const [count, setCount] = useState(0);
+    const ref = useRef(null);
+    const started = useRef(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !started.current) {
+                    started.current = true;
+                    const duration = 1800;
+                    const steps = 60;
+                    const increment = target / steps;
+                    let current = 0;
+                    const interval = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            setCount(target);
+                            clearInterval(interval);
+                        } else {
+                            setCount(Math.floor(current));
+                        }
+                    }, duration / steps);
+                }
+            },
+            { threshold: 0.3 }
+        );
+        if (ref.current) observer.observe(ref.current);
+        return () => observer.disconnect();
+    }, [target]);
+
+    return <span ref={ref}>{count}{suffix}</span>;
 };
 
 const services = [
@@ -69,15 +102,15 @@ const services = [
     },
     {
         img: '/assets/seat-covers.png',
-        icon: <FaChair />,
+        icon: <GiCarSeat />,
         title: 'Premium Seat Covers',
         desc: 'Luxury leather and custom-designed seat covers with diamond stitching, perfect fit, and premium materials that transform your cabin.',
     },
     {
         img: '/assets/interior-design.png',
         icon: <FaMagic />,
-        title: 'Interior Designing',
-        desc: 'Complete interior customization — ambient lighting, dashboard upgrades, custom steering wheels, and premium trim installations.',
+        title: 'Upholstery Works',
+        desc: 'Professional upholstery restoration and custom upholstery work for seats, door panels, and interior trim with premium fabrics.',
     },
     {
         img: '/assets/car-tinting.png',
@@ -91,7 +124,37 @@ const services = [
         title: 'Alloy Wheels & LED Lights',
         desc: 'Upgrade your look with premium alloy wheels and energy-efficient LED lights for enhanced style and visibility on the road.',
     },
+    {
+        img: '/assets/sound-horns.png',
+        icon: <FaVolumeUp />,
+        title: 'Sound Horns',
+        desc: 'Premium dual-tone and multi-tone horn systems with powerful sound output and modern styling for enhanced audibility and style.',
+    },
+    {
+        img: '/assets/car-stereo.png',
+        icon: <FaHeadphones />,
+        title: 'Car Stereo Upgrade',
+        desc: 'High-quality audio systems with advanced speakers, subwoofers, and amplifiers for crystal-clear sound and immersive listening.',
+    },
+    {
+        img: '/assets/lock-system.png',
+        icon: <FaLock />,
+        title: 'Remote & General Lock System',
+        desc: 'Advanced remote locking systems with keyless entry, alarm features, and smart security for maximum protection and convenience.',
+    },
+    {
+        img: '/assets/car-batteries.png',
+        icon: <FaBatteryFull />,
+        title: 'Car Batteries',
+        desc: 'Premium automotive batteries with enhanced performance, durability, and reliability for all weather conditions and demanding use.',
+    },
+];
 
+const stats = [
+    { num: 10, suffix: '+', label: 'Years of Experience' },
+    { num: 5000, suffix: '+', label: 'Cars Upgraded' },
+    { num: 50, suffix: '+', label: 'Premium Products' },
+    { num: 100, suffix: '%', label: 'Customer Satisfaction' },
 ];
 
 const HomePage = () => {
@@ -100,7 +163,6 @@ const HomePage = () => {
     const aboutRef = useParallax(0.2);
 
     useEffect(() => {
-        // Handle hash scroll on mount
         if (window.location.hash) {
             const el = document.querySelector(window.location.hash);
             if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 100);
@@ -112,21 +174,16 @@ const HomePage = () => {
             {/* ========== HERO ========== */}
             <HeroSlider />
 
-
             {/* ========== STATS ========== */}
             <section className="section stats-section" ref={statsRef}>
                 <div className="parallax-bg-layer" style={{ backgroundImage: 'url(/assets/hero-banner.png)', opacity: 0.05 }}></div>
                 <div className="container">
-
                     <div className="stats-grid">
-                        {[
-                            { num: '10+', label: 'Years of Experience' },
-                            { num: '5000+', label: 'Cars Upgraded' },
-                            { num: '50+', label: 'Premium Products' },
-                            { num: '100%', label: 'Customer Satisfaction' },
-                        ].map((stat, i) => (
+                        {stats.map((stat, i) => (
                             <div className="stat-item reveal" key={i}>
-                                <h3>{stat.num}</h3>
+                                <h3>
+                                    <CountUp target={stat.num} suffix={stat.suffix} />
+                                </h3>
                                 <p>{stat.label}</p>
                             </div>
                         ))}
@@ -165,7 +222,6 @@ const HomePage = () => {
             <section className="section about-section" id="about" ref={aboutRef}>
                 <div className="parallax-bg-layer" style={{ backgroundImage: 'url(/assets/interior-design.png)', opacity: 0.03 }}></div>
                 <div className="container">
-
                     <div className="about-content">
                         <div className="about-image reveal">
                             <img src="/assets/interior-design.png" alt="Carplex workshop interior" />
@@ -220,7 +276,7 @@ const HomePage = () => {
                                 <div className="contact-icon"><FaPhoneAlt /></div>
                                 <div>
                                     <h4>Phone</h4>
-                                    <p><a href="tel:+97142711275">+971 4 271 1275</a></p>
+                                    <p><a href="tel:+(04)271 1275">+(04)271 1275</a></p>
                                     <p><a href="tel:+971502292861">+971 50 229 2861</a></p>
                                 </div>
                             </div>
@@ -239,7 +295,6 @@ const HomePage = () => {
                                     <p><a href="mailto:info@carplexuae.com">info@carplexuae.com</a></p>
                                 </div>
                             </div>
-
                         </div>
                         <div className="contact-map reveal">
                             <iframe

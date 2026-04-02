@@ -37,16 +37,16 @@ const Navbar = () => {
         <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="navbar">
             <div className="navbar-container">
                 <Link to="/" className="logo" onClick={closeMenu}>
-                    <img src="/assets/carplex-uae.PNG" alt="Carplex" className="logo-img" />
+                    <img src="/assets/carples logo.png" alt="Carplex" className="logo-img" />
                 </Link>
 
                 <div className={`nav-backdrop ${menuOpen ? 'open' : ''}`} onClick={closeMenu}></div>
 
                 <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
                     <li><Link to="/" className={isActive('/')} onClick={closeMenu}>Home</Link></li>
+                    <li><a href="/#about" onClick={closeMenu}>About</a></li>
                     <li><a href="/#services" onClick={closeMenu}>Services</a></li>
                     <li><Link to="/products" className={isActive('/products')} onClick={closeMenu}>Products</Link></li>
-                    <li><a href="/#about" onClick={closeMenu}>About</a></li>
                     <li><a href="/#contact" onClick={closeMenu}>Contact</a></li>
                     <li><a href="tel:+971502292861" className="nav-cta" onClick={handleCall}><FaPhoneAlt size={14} /> Call Now</a></li>
 

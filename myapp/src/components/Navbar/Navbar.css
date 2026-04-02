@@ -285,9 +285,9 @@
 
 /* Add to Navbar.css */
 .logo-img {
-    height: 60px;
-    max-height: 100%;
+    height: clamp(28px, 5vw, 56px);
     width: auto;
+    max-width: 135px;
     object-fit: contain;
     display: block;
     transition: var(--transition);

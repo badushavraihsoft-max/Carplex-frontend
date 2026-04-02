@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Parallax, Pagination, Autoplay } from 'swiper/modules';
 import { ArrowRight } from 'lucide-react';
