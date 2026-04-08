@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaInstagram, FaFacebook, FaWhatsapp, FaTiktok, FaPhonePlain, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaInstagram, FaFacebook, FaWhatsapp, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import './Footer.css';
 
 
@@ -60,7 +60,6 @@ const Footer = () => {
                         <a href="#!" className="social-link" aria-label="Instagram"><FaInstagram /></a>
                         <a href="#!" className="social-link" aria-label="Facebook"><FaFacebook /></a>
                         <a href="#!" className="social-link" aria-label="WhatsApp"><FaWhatsapp /></a>
-                        <a href="#!" className="social-link" aria-label="TikTok"><FaTiktok /></a>
                     </div>
 
                 </div>
